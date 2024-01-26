@@ -1,6 +1,12 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { toggleMenu } from "../utils/navSlice";
+import {
+  HAMBURGER_ICON,
+  LOGO_URL,
+  SEARCH_ICON,
+  USER_ICON,
+} from "../utils/constants";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -14,14 +20,14 @@ const Header = () => {
       <div className="flex col-span-2 items-center">
         <img
           onClick={() => toggleMenuHandler()}
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hamburger_icon.svg/1024px-Hamburger_icon.svg.png"
+          src={HAMBURGER_ICON}
           alt="hamburger icon"
           className="h-6 items-center cursor-pointer"
         />
         <img
-          src="https://t3.ftcdn.net/jpg/03/00/38/90/360_F_300389025_b5hgHpjDprTySl8loTqJRMipySb1rO0I.jpg"
+          src={LOGO_URL}
           alt="logo"
-          className="h-14 ml-4 items-center"
+          className="h-14 ml-4 items-center cursor-pointer"
         />
       </div>
 
@@ -33,7 +39,7 @@ const Header = () => {
         />
         <button className="">
           <img
-            src="https://cdn3.iconfinder.com/data/icons/feather-5/24/search-512.png"
+            src={SEARCH_ICON}
             alt="search icon"
             className="h-8 px-5 py-1 items-center border border-black rounded-r-full bg-gray-100"
           />
@@ -41,11 +47,7 @@ const Header = () => {
       </div>
 
       <div className="flex col-span-1 items-center justify-end mr-8">
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9hrpUnDCcHPqBT1mvnZ0HM-CddsZnfZXiyJd_VPRGOA&s"
-          alt="user icon"
-          className="h-8 items-center"
-        />
+        <img src={USER_ICON} alt="user icon" className="h-8 items-center" />
       </div>
     </div>
   );
