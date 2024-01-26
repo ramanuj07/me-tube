@@ -5,4 +5,9 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  extend: {
+    fontFamily: {
+      sans: ['"Inter"', "system-ui", "-apple-system"],
+    },
+  },
 };

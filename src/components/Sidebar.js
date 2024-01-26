@@ -16,8 +16,8 @@ const Sidebar = () => {
           <Link to={"/"}>
             <li className="hover:bg-gray-100">Home</li>
           </Link>
-          <li>Shorts</li>
-          <li>Subscriptions</li>
+          <li className="hover:bg-gray-100">Shorts</li>
+          <li className="hover:bg-gray-100">Subscriptions</li>
         </ul>
       </div>
 

@@ -35,19 +35,23 @@ const Header = () => {
         <input
           type="text"
           placeholder="Search"
-          className="h-8 w-1/2 border border-black rounded-l-full p-2"
+          className="h-8 w-1/2 border border-gray-400 rounded-l-full p-2"
         />
         <button className="">
           <img
             src={SEARCH_ICON}
             alt="search icon"
-            className="h-8 px-5 py-1 items-center border border-black rounded-r-full bg-gray-100"
+            className="h-8 px-5 py-1 items-center border border-gray-400 rounded-r-full bg-gray-100"
           />
         </button>
       </div>
 
       <div className="flex col-span-1 items-center justify-end mr-8">
-        <img src={USER_ICON} alt="user icon" className="h-8 items-center" />
+        <img
+          src={USER_ICON}
+          alt="user icon"
+          className="h-8 items-center cursor-pointer"
+        />
       </div>
     </div>
   );
