@@ -1,15 +1,49 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleMenu } from "../utils/navSlice";
+import { cacheResults } from "../utils/searchSlice";
 import {
   HAMBURGER_ICON,
   LOGO_URL,
   SEARCH_ICON,
   USER_ICON,
+  YOUTUBE_SEARCH_API,
 } from "../utils/constants";
 
 const Header = () => {
+  const [searchText, setSearchText] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const dispatch = useDispatch();
+  const searchCache = useSelector((store) => store.search);
+
+  useEffect(() => {
+    console.log("API CALL - " + searchText);
+    const timer = setTimeout(() => {
+      if (searchCache[searchText]) {
+        setSuggestions(searchCache[searchText]);
+      } else {
+        getSearchSuggestions();
+      }
+    }, 200);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchText]);
+
+  const getSearchSuggestions = async () => {
+    const data = await fetch(YOUTUBE_SEARCH_API + searchText);
+    const json = await data.json();
+    setSuggestions(json[1]);
+
+    // update the cache
+    dispatch(
+      cacheResults({
+        [searchText]: json[1],
+      })
+    );
+  };
 
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
@@ -31,19 +65,40 @@ const Header = () => {
         />
       </div>
 
-      <div className="flex col-span-9 items-center">
-        <input
-          type="text"
-          placeholder="Search"
-          className="h-8 w-1/2 border border-gray-400 rounded-l-full p-2"
-        />
-        <button className="">
-          <img
-            src={SEARCH_ICON}
-            alt="search icon"
-            className="h-8 px-5 py-1 items-center border border-gray-400 rounded-r-full bg-gray-100"
+      <div className="col-span-9 px-10 mt-3">
+        <div className="flex items-center">
+          <input
+            type="text"
+            placeholder="Search"
+            className="px-4 w-1/2 h-8 border border-gray-400 rounded-l-full py-2"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onFocus={() => setShowSuggestions(true)}
+            onBlur={() => setShowSuggestions(false)}
           />
-        </button>
+          <button>
+            <img
+              src={SEARCH_ICON}
+              alt="search icon"
+              className="h-8 px-4 py-1 border border-gray-400 rounded-r-full bg-gray-100"
+            />
+          </button>
+        </div>
+
+        {showSuggestions && (
+          <div className="absolute bg-white py-2 px-2 w-[28rem] shadow-lg rounded-lg border border-gray-100">
+            <ul>
+              {suggestions.map((suggestion) => (
+                <li
+                  key={suggestion}
+                  className="py-2 px-3 shadow-sm hover:bg-gray-100"
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="flex col-span-1 items-center justify-end mr-8">
