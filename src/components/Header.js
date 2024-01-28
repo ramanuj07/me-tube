@@ -18,7 +18,6 @@ const Header = () => {
   const searchCache = useSelector((store) => store.search);
 
   useEffect(() => {
-    console.log("API CALL - " + searchText);
     const timer = setTimeout(() => {
       if (searchCache[searchText]) {
         setSuggestions(searchCache[searchText]);
@@ -58,11 +57,13 @@ const Header = () => {
           alt="hamburger icon"
           className="h-6 items-center cursor-pointer"
         />
-        <img
-          src={LOGO_URL}
-          alt="logo"
-          className="h-14 ml-4 items-center cursor-pointer"
-        />
+        <a href="/">
+          <img
+            src={LOGO_URL}
+            alt="logo"
+            className="h-14 ml-4 items-center cursor-pointer"
+          />
+        </a>
       </div>
 
       <div className="col-span-9 px-10 mt-3">
