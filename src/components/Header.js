@@ -14,6 +14,7 @@ const Header = () => {
   const [searchText, setSearchText] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState(false);
   const dispatch = useDispatch();
   const searchCache = useSelector((store) => store.search);
 
@@ -44,12 +45,26 @@ const Header = () => {
     );
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setSelectedSuggestionIndex(
+        (prevIndex) => (prevIndex + 1) % suggestions.length
+      );
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setSelectedSuggestionIndex(
+        (prevIndex) => (prevIndex - 1 + suggestions.length) % suggestions.length
+      );
+    }
+  };
+
   const toggleMenuHandler = () => {
     dispatch(toggleMenu());
   };
 
   return (
-    <div className="grid grid-flow-col py-2 px-4 shadow-lg">
+    <div className="sticky top-0 bg-white grid grid-flow-col py-2 px-4 shadow-lg">
       <div className="flex col-span-2 items-center">
         <img
           onClick={() => toggleMenuHandler()}
@@ -71,8 +86,9 @@ const Header = () => {
           <input
             type="text"
             placeholder="Search"
-            className="px-4 w-1/2 h-8 border border-gray-400 rounded-l-full py-2"
+            className="px-4 w-1/2 h-8  border border-gray-400 rounded-l-full py-2"
             value={searchText}
+            onKeyDown={handleKeyDown}
             onChange={(e) => setSearchText(e.target.value)}
             onFocus={() => setShowSuggestions(true)}
             onBlur={() => setShowSuggestions(false)}
@@ -89,10 +105,14 @@ const Header = () => {
         {showSuggestions && (
           <div className="absolute bg-white py-2 px-2 w-[28rem] shadow-lg rounded-lg border border-gray-100">
             <ul>
-              {suggestions.map((suggestion) => (
+              {suggestions.map((suggestion, index) => (
                 <li
                   key={suggestion}
-                  className="py-2 px-3 shadow-sm hover:bg-gray-100"
+                  onMouseEnter={() => setSelectedSuggestionIndex(index)}
+                  onMouseLeave={() => setSelectedSuggestionIndex(false)}
+                  className={`py-2 px-5 hover:bg-gray-100 cursor-pointer ${
+                    selectedSuggestionIndex === index ? "bg-gray-100" : ""
+                  }`}
                 >
                   {suggestion}
                 </li>

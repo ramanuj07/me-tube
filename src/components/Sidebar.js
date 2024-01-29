@@ -10,7 +10,7 @@ const Sidebar = () => {
   }
 
   return (
-    <div className="p-4 shadow-lg col-span-2">
+    <div className="h-screen sticky top-12 p-4 shadow-lg col-span-2">
       <div className="mb-6">
         <ul className="flex flex-col gap-2 border-b-2 py-4">
           <Link to={"/"}>
